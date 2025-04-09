@@ -1,7 +1,9 @@
 ##  Imports
 
-import os
-import numpy as np
+    import os
+    import numpy as np
+
+
 Imports:
 
 -> os is used for interacting with the file system.
@@ -10,12 +12,12 @@ Imports:
 
 ##  Initializes variables
 
-X = None
-y = None
-is_init = False
-label = []
-dictionary = {}
-c = 0 
+    X = None
+    y = None
+    is_init = False
+    label = []
+    dictionary = {}
+    c = 0 
 
 
 -> X, y: Will hold the combined data and labels.
@@ -28,7 +30,7 @@ c = 0
 
 <!-- Line 12 -->
 
-for i in os.listdir():
+    for i in os.listdir():
 
 -> Loops over all files in the current directory.
 
@@ -92,21 +94,21 @@ for i in os.listdir():
 
 <!-- Line 29 : -->
 
-for i in range(y.shape[0]):
-    y[i, 0] = dictionary[y[i, 0]]
+    for i in range(y.shape[0]):
+        y[i, 0] = dictionary[y[i, 0]]
 
 
 -> For each row in y, you replace the string class label with its corresponding integer index from dictionary
 
 
 
-y = np.array(y, dtype="int32")
+    y = np.array(y, dtype="int32")
 
 
 -> Ensures that the label array is of type int32 (needed for categorical operations).
 
 
-y = utils.to_categorical(y)
+    y = utils.to_categorical(y)
 
 
 -> Uses Keras utility to one-hot encode the numeric labels.
@@ -115,16 +117,16 @@ E.g., if labels were [0, 1], this becomes [[1, 0], [0, 1]].
 
 <!-- Line 42 : -->
 
-X_new = X.copy()
-y_new = y.copy()
-counter = 0
+    X_new = X.copy()
+    y_new = y.copy()
+    counter = 0
 
 
 -> Creates new copies of the data and label arrays for shuffling.
 
 
-cnt = np.arange(X.shape[0])
-np.random.shuffle(cnt)
+    cnt = np.arange(X.shape[0])
+    np.random.shuffle(cnt)
 
 
 -> Generates an array of indices from 0 to X.shape[0] - 1, then shuffles them.
@@ -132,17 +134,17 @@ np.random.shuffle(cnt)
 <!-- Line 49 : -->
 
 
-for i in cnt: 
-    X_new[counter] = X[i]
-    y_new[counter] = y[i]
-    counter = counter + 1
+    for i in cnt: 
+        X_new[counter] = X[i]
+        y_new[counter] = y[i]
+        counter = counter + 1
 
 
 -> Uses the shuffled indices to reorder X and y into X_new and y_new.
 -> This effectively shuffles the dataset.
 
 
-ip = layers.Input(shape=(X.shape[1],))
+    ip = layers.Input(shape=(X.shape[1],))
 
 
 -> Creates the input layer for a neural network.
@@ -152,8 +154,8 @@ ip = layers.Input(shape=(X.shape[1],))
 <!-- Line 56 : -->
 
 
-m = layers.Dense(512, activation="relu")(ip)
-m = layers.Dense(256, activation="relu")(m)
+    m = layers.Dense(512, activation="relu")(ip)
+    m = layers.Dense(256, activation="relu")(m)
 
 
 -> Adds two hidden layers:
@@ -162,7 +164,7 @@ m = layers.Dense(256, activation="relu")(m)
 
 
 
-op = layers.Dense(y.shape[1], activation="softmax")(m) 
+    op = layers.Dense(y.shape[1], activation="softmax")(m) 
 
 
 -> Output layer:
@@ -171,7 +173,7 @@ op = layers.Dense(y.shape[1], activation="softmax")(m)
 
 
 
-model = models.Model(inputs=ip, outputs=op)
+    model = models.Model(inputs=ip, outputs=op)
 
 
 -> Defines the final model by connecting the input and output layers.
@@ -179,7 +181,7 @@ model = models.Model(inputs=ip, outputs=op)
 <!-- Line 63 -->
 
 
-model.compile(optimizer='rmsprop', loss="categorical_crossentropy", metrics=['acc'])
+    model.compile(optimizer='rmsprop', loss="categorical_crossentropy", metrics=['acc'])
 
 
 -> Compiles the model:
@@ -189,19 +191,19 @@ model.compile(optimizer='rmsprop', loss="categorical_crossentropy", metrics=['ac
 
 
 
-model.fit(X, y, epochs=50)
+    model.fit(X, y, epochs=50)
 
 
 -> Trains the model on your original dataset for 50 epochs.(An epoch refers to one complete pass through the entire training dataset)
 
 
-model.save("model.h5")
+    model.save("model.h5")
 
 
 -> Saves the trained model to a file model.h5 (standard Keras model format).
 
 
-np.save("labels.npy", np.array(label))
+    np.save("labels.npy", np.array(label))
 
 
 -> Saves the list of class names (label) to a .npy file.
