@@ -144,7 +144,7 @@ m = layers.Dense(512, activation="relu")(ip)
 m = layers.Dense(256, activation="relu")(m)
 
 -> Adds two hidden layers:
-    -- First with 512 units and ReLU activation. (activation functions in neural networks.)
+    -- First with 512 neurons and ReLU activation. (activation functions in neural networks.)
     -- Second with 256 units and ReLU.
 
 
@@ -167,15 +167,15 @@ model = models.Model(inputs=ip, outputs=op)
 model.compile(optimizer='rmsprop', loss="categorical_crossentropy", metrics=['acc'])
 
 -> Compiles the model:
-->Optimizer: RMSprop (good for small datasets).
--> Loss: Categorical crossentropy (since it's multi-class classification).
--> Metric: Accuracy.
+    -- Optimizer: RMSprop (good for small datasets).
+    -- Loss: Categorical crossentropy (since it's multi-class classification).
+    -- Metric: Accuracy.
 
 
 
 model.fit(X, y, epochs=50)
 
--> Trains the model on your original dataset for 50 epochs.
+-> Trains the model on your original dataset for 50 epochs.(An epoch refers to one complete pass through the entire training dataset)
 
 model.save("model.h5")
 
